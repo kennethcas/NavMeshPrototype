@@ -13,6 +13,8 @@ public class GameManager: MonoBehaviour
     public bool isGameOver = false;
     GameObject ui_GameOverPage;
 
+    GameObject[] enemyObjects;
+
     void Awake()
     {
         if (instance == null)
@@ -25,12 +27,28 @@ public class GameManager: MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        //MAKING AN ARRAY FOR ENEMYOBJECTS IN SCENE
+        
+        enemyObjects = GameObject.FindGameObjectsWithTag("Enemy");
+    }
+
     void Update()
     {
+        print(enemyObjects.Length);
+        //RESTART SCENE WITH R
         if (Input.GetKeyDown(KeyCode.R))
         {
             RestartScene();
         }
+
+        //
+        if (enemyObjects.Length == 0)
+        {
+            Debug.Log("NO MORE ENEMIES IN SCENE");
+        }
+
         
     }
 
