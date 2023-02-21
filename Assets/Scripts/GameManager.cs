@@ -5,13 +5,26 @@ using UnityEngine.SceneManagement;
 
 public class GameManager: MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static GameManager instance;
+
+    public Transform player;
+
+    [SerializeField] //mostly used for private >//<
+    public bool isGameOver = false;
+    GameObject ui_GameOverPage;
+
+    void Awake()
     {
-        
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
@@ -24,5 +37,11 @@ public class GameManager: MonoBehaviour
     void RestartScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    void GameOver()
+    {
+        isGameOver = true;
+        ui_GameOverPage.SetActive(true);
     }
 }

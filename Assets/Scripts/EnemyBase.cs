@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 namespace Ken.CharacterPack
 {
-    public class Enemy : MonoBehaviour
+    public class EnemyBase : MonoBehaviour
     {
         NavMeshAgent nav;
 
@@ -26,6 +26,8 @@ namespace Ken.CharacterPack
             //ResetMoveTimer();
             nav.SetDestination(transform.position + new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10)));
             moveTimerTotal = Random.Range(1.1f, 3.3f);
+
+            nav.isStopped= false;
         }
 
         void ResetMoveTimer()
@@ -43,22 +45,24 @@ namespace Ken.CharacterPack
             {
                 if (moveTimer > moveTimerTotal)
                 {
-                    //ResetMoveTimer();
-                    nav.isStopped = false;
-                    //nav.SetDestination(transform.position + new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10)));
+                    ResetMoveTimer();
+                    //nav.isStopped = false;
+                    nav.SetDestination(transform.position + new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10)));
                     nav.speed = 3;
 
                 }
                 else if (moveTimer < moveTimerTotal)
                 {
-                    ResetMoveTimer();
-                    nav.SetDestination(transform.position + new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10)));
+                    //ResetMoveTimer();
+                    //nav.SetDestination(transform.position + new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10)));
+                    moveTimer += Time.deltaTime;
                 }
             }
             else if (isDying)
             {
                 //PLAY DYING ANIMATION
                 StartCoroutine(DespawnEnemyCoroutine());
+                nav.isStopped= true;
                 anim.SetTrigger("Dying");
             }
 
